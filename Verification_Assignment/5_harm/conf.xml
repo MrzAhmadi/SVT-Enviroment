@@ -1,0 +1,20 @@
+<harm>
+    <context name="random_tb_top::clk">
+
+        <propositions>
+            <prop name="req_water" loc="c">random_tb_top::dut::button_in == 1 &amp;&amp; random_tb_top::dut::credit &gt;= 30</prop>
+            <prop name="req_soda"  loc="c">random_tb_top::dut::button_in == 2 &amp;&amp; random_tb_top::dut::credit &gt;= 50</prop>
+            <prop name="get_water" loc="c">random_tb_top::dut::beverage_out == 1</prop>
+            <prop name="get_soda"  loc="c">random_tb_top::dut::beverage_out == 2</prop>
+            <prop name="coin_ins"  loc="c">random_tb_top::dut::coin_in &gt; 0</prop>
+        </propositions>
+
+        <templates>
+            <template name="T1_ExactDelay" text="G({..p1..} |-&gt; ##2 {..p2..})" />
+            <template name="T2_Eventually" text="G({..p1..} |-&gt; F {..p2..})" />
+        </templates>
+
+        <sort name="frequency" exp="atct"/>
+    
+    </context>
+</harm>
