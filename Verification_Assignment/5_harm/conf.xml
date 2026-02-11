@@ -1,18 +1,15 @@
 <harm>
-    <context name="random_tb_top::clk">
-        
-        <propositions>
-            <prop name="p0" loc="c">button_in == 1</prop>
-            <prop name="p1" loc="c">beverage_out == 1</prop>
-            <prop name="p2" loc="c">button_in == 2</prop>
-            <prop name="p3" loc="c">beverage_out == 2</prop>
-        </propositions>
+    <context name="default">
+        <template name="water_delivery" exp="G({harm_btn == 1} |-> ##[1:5] {harm_bev == 1})"/>
+        <template name="soda_delivery" exp="G({harm_btn == 2} |-> ##[1:5] {harm_bev == 2})"/>
 
-        <templates>
-            <template name="t1" text="G({..p0..} |-&gt; ##2 {..p1..})"/>
-            <template name="t2" text="G({..p2..} |-&gt; ##2 {..p3..})"/>
-        </templates>
+        <numeric clustering="K,10Max,0.01WCSS,><,==" exp="harm_bev" loc="c,dt"/>
+        <numeric clustering="K,10Max,0.01WCSS,><,==" exp="harm_btn" loc="c,dt"/>
+        <prop exp="rst" loc="c,dt"/>
 
-        <sort name="frequency" exp="atct"/>
+        <template dtLimits="5D,3W,15A,-0.1E,U" exp="G({..#1&..}|-> P0)" /> 
+
+        <sort name="causality" exp="1-afct/traceLength"/>
+        <sort name="frequency" exp="atct/traceLength"/>
     </context>
 </harm>
