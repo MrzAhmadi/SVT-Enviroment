@@ -1,20 +1,18 @@
 <harm>
     <context name="random_tb_top::clk">
-
+        
         <propositions>
-            <prop name="req_water" loc="c">random_tb_top::dut::button_in == 1 &amp;&amp; random_tb_top::dut::credit &gt;= 30</prop>
-            <prop name="req_soda"  loc="c">random_tb_top::dut::button_in == 2 &amp;&amp; random_tb_top::dut::credit &gt;= 50</prop>
-            <prop name="get_water" loc="c">random_tb_top::dut::beverage_out == 1</prop>
-            <prop name="get_soda"  loc="c">random_tb_top::dut::beverage_out == 2</prop>
-            <prop name="coin_ins"  loc="c">random_tb_top::dut::coin_in &gt; 0</prop>
+            <prop name="p0" loc="c">button_in == 1</prop>
+            <prop name="p1" loc="c">beverage_out == 1</prop>
+            <prop name="p2" loc="c">button_in == 2</prop>
+            <prop name="p3" loc="c">beverage_out == 2</prop>
         </propositions>
 
         <templates>
-            <template name="T1_ExactDelay" text="G({..p1..} |-&gt; ##2 {..p2..})" />
-            <template name="T2_Eventually" text="G({..p1..} |-&gt; F {..p2..})" />
+            <template name="t1" text="G({..p0..} |-&gt; ##2 {..p1..})"/>
+            <template name="t2" text="G({..p2..} |-&gt; ##2 {..p3..})"/>
         </templates>
 
         <sort name="frequency" exp="atct"/>
-    
     </context>
 </harm>
