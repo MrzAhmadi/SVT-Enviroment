@@ -1,27 +1,25 @@
 module vending_machine #(
-    parameter N = 2, // Cycles for delivery
-    parameter M = 2  // Cycles for returning change
+    parameter N = 2, 
+    parameter M = 2  
 )(
     input  logic        clk,
     input  logic        rst,
-    input  logic [31:0] coin_in,     // Numeric value of coin inserted
-    input  logic [31:0] button_in,   // Numeric value of button pressed
-    output logic [31:0] change_out,  // Numeric value of change returned
-    output logic [31:0] beverage_out // Numeric value of beverage delivered
+    input  logic [31:0] coin_in,     
+    input  logic [31:0] button_in,   
+    output logic [31:0] change_out,  
+    output logic [31:0] beverage_out 
 );
 
-    // Internal State
     typedef enum {IDLE, DELIVER, CHANGE} state_t;
     state_t current_state;
 
     logic [31:0] credit;
     logic [31:0] timer;
-    logic [31:0] selected_bev; // 1=Water, 2=Soda
+    logic [31:0] selected_bev; 
 
-    // Constants
     localparam COST_WATER = 30;
     localparam COST_SODA  = 50;
-    localparam MIN_COST   = 30; // Lowest price item
+    localparam MIN_COST   = 30; 
 
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
@@ -32,20 +30,16 @@ module vending_machine #(
             beverage_out  <= 0;
             selected_bev  <= 0;
         end else begin
-            // Default output reset per cycle
             beverage_out <= 0;
             change_out   <= 0;
 
             case (current_state)
                 IDLE: begin
-                    // Handle Coin Input
                     if (coin_in == 10 || coin_in == 20 || coin_in == 50 || 
                         coin_in == 100 || coin_in == 200) begin
                         credit <= credit + coin_in;
                     end
 
-                    // Handle Button Input
-                    // Button 1 = Water (30), Button 2 = Soda (50)
                     if (button_in == 1 && credit >= COST_WATER) begin
                         credit <= credit - COST_WATER;
                         selected_bev <= 1;
@@ -60,13 +54,11 @@ module vending_machine #(
                 end
 
                 DELIVER: begin
-                    // Wait N cycles
                     if (timer > 0) begin
                         timer <= timer - 1;
                     end else begin
-                        beverage_out <= selected_bev; // Deliver
+                        beverage_out <= selected_bev; 
                         
-                        // Check if change is needed 
                         if (credit < MIN_COST && credit > 0) begin
                             timer <= M;
                             current_state <= CHANGE;
@@ -77,11 +69,10 @@ module vending_machine #(
                 end
 
                 CHANGE: begin
-                    // Wait M cycles
                     if (timer > 0) begin
                         timer <= timer - 1;
                     end else begin
-                        change_out <= credit; // Return change
+                        change_out <= credit; 
                         credit <= 0;
                         current_state <= IDLE;
                     end

@@ -1,6 +1,7 @@
+// Bind checker to the vending machine module
 bind vending_machine vending_props #(
-    .N(N),
-    .M(M)
+    .N(N), // Map delivery cycle parameter
+    .M(M)  // Map change return cycle parameter
 ) props_inst (
     .clk(clk),
     .rst(rst),

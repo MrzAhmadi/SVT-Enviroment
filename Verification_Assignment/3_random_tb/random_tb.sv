@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 
-// 1. Interface
 interface vending_intf(input logic clk, input logic rst);
     logic [31:0] coin_in;
     logic [31:0] button_in;
@@ -8,19 +7,21 @@ interface vending_intf(input logic clk, input logic rst);
     logic [31:0] beverage_out;
 endinterface
 
-// 2. Transaction Object
 class transaction;
     rand bit [31:0] coin;
     rand bit [31:0] button;
+
+    // Constrain coins to allowed values per specification
     constraint valid_coin { coin inside {0, 10, 20, 50, 100, 200}; }
     constraint valid_button { button inside {0, 1, 2}; }
+
+    // Weighted distribution to prevent input saturation
     constraint realistic_dist {
         coin dist   {0 := 80, [10:200] := 20};
         button dist {0 := 90, [1:2] := 10};
     }
 endclass
 
-// 3. Generator
 class generator;
     transaction tr;
     virtual vending_intf vif;
@@ -32,7 +33,7 @@ class generator;
 
     task run(int count);
         repeat (count) begin
-            assert(tr.randomize());
+            if (!tr.randomize()) $error("Randomization failed");
             @(posedge vif.clk);
             vif.coin_in   <= tr.coin;
             vif.button_in <= tr.button;
@@ -43,7 +44,6 @@ class generator;
     endtask
 endclass
 
-// 4. Top Level Module
 module random_tb_top;
     logic clk;
     logic rst;
@@ -55,7 +55,10 @@ module random_tb_top;
 
     vending_intf intf(clk, rst);
 
-    vending_machine dut (
+    vending_machine #(
+        .N(4), // Based on mined results
+        .M(2)
+    ) dut (
         .clk(intf.clk),
         .rst(intf.rst),
         .coin_in(intf.coin_in),
@@ -64,14 +67,11 @@ module random_tb_top;
         .beverage_out(intf.beverage_out)
     );
     
-    // === [NEW] HARM EXPOSED SIGNALS ===
-    // These wires force the simulator to keep these signals as 32-bit buses 
-    // at the top level, making them easy for HARM to find.
+    // Alias signals for HARM mining accessibility
     logic [31:0] harm_btn;
     logic [31:0] harm_bev;
     assign harm_btn = intf.button_in;
     assign harm_bev = intf.beverage_out;
-    // ==================================
 
     generator gen;
     initial begin
@@ -84,6 +84,7 @@ module random_tb_top;
         gen.run(2000); 
 
         #200;
+        $display("Random simulation complete");
         $finish;
     end
 endmodule

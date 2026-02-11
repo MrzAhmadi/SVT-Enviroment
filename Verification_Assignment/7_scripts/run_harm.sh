@@ -11,3 +11,9 @@ harm --vcd ../6_traces/random_tb.vcd \
      --conf ../5_harm/conf.xml > ../5_harm/mined_assertions.txt
 
 echo "Mining complete. Results saved to 5_harm/mined_assertions.txt"
+
+# Display only the results table in the terminal
+echo "------------------------------------------------------------"
+echo "Mined Assertions Results Table:"
+sed -n '/╔/,/╚/p' ../5_harm/mined_assertions.txt
+echo "------------------------------------------------------------"
