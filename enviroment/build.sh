@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t eda_harm:ubuntu22 .
+docker build --no-cache -t eda_harm:ubuntu22 .
