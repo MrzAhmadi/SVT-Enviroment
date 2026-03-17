@@ -4,10 +4,10 @@ Verification_Assignment/7_scripts/work
 Verification_Assignment/7_scripts/gmon.out
 Verification_Assignment/7_scripts/transcript
 
-Verification_Assignment/8_report/*.toc
-Verification_Assignment/8_report/*.out
-Verification_Assignment/8_report/*.log
-Verification_Assignment/8_report/*.aux
-Verification_Assignment/8_report/*.fdb_latexmk
-Verification_Assignment/8_report/*.fls
-Verification_Assignment/8_report/*.synctex.gz
+*.toc
+*.out
+*.log
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz

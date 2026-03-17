@@ -1,0 +1,72 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{microtype}
+
+% --- Title Information ---
+\title{[SVT Lab] Final Report: Testing Laboratory Concepts}
+\author{Reza Ahmadi (VR510067)}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+The main purpose of this report is a quick review of all the important topics in the testing part of the Systems Verification and Testing course.
+\subsection{Verification vs Testing}
+n Verification, the main approaches are defined to check the design and the designer's intention, and how a design respects that intention. However, in Testing, we check every device that is made; for instance, we check whether the output of a circuit respects our input or not.
+In short, we do the verification for the final product just one time after all feature implementation, but we do the testing for every circuit or device that is made from the design.
+Another difference between Verification and Testing is related to the way they are applied; in fact, for Verification, we use simulators to mimic design behavior, but in Testing, we apply it to every single real circuit or device.
+\subsection{The cost of Faults}
+One of the most important and notable purposes of testing is to reduce the cost of faults. In fact, if we consider an IC, finding a fault at a lower level (wafer level) is simpler and cheaper than when it is used in a smartphone or a car.
+
+\section{Hardware Description Languages: Verilog-AMS}
+Verilog-AMS (Analog and Mixed-Signal) is an HDL (Hardware Description Language) extension that helps us to combine event-driven simulation (digital) with continuous-time simulation (analog) into a single standard.
+Verilog-AMS combines two languages (Verilog and Verilog-A) and provides an extension to allow mixed-signal components.
+\subsection{Mixed-Signal Modeling}
+Verilog-AMS (Analog and Mixed-Signal) is important because it allows us to simulate complex behavioral systems where digital control logic is connected with analog hardware within a single, unique language. We use mixed modeling for purposes such as:
+\begin{itemize}
+  \item \textbf{System Integration:} Modern designs, like smart hybrid power car systems, or automatic braking, need a digital controller to control analog components like motors, fuel tanks, or sensors.
+  \item \textbf{Domain Convergence:} Mixed modeling helps us to connect the digital world with the analog world.
+  \item \textbf{Language combiantion:} Verilog-AMS combines Verilog-HDL and Verilog-A.
+  \item \textbf{Simulation Balance:} Mixed Modeling provides a balance between simulation performance (considerd by speed) and accuracy, and we can contrill it between high-accuracy SPICE and high-performance for digital models.
+\end{itemize}
+
+\noindent Gemini said
+Mixed models are demanded for component modeling, especially when we have hardware with several levels of implementation. They also help us to improve the acceleration of the simulation process. Furthermore, they support a top-down design process that helps engineers move from abstract architectural models to detailed implementations.
+
+\subsection{Key Concepts}
+\begin{itemize}
+  \item \textbf{Mixed-Signal Nature:} It refers to Verilog-AMS, which is a combination of Verilog-HDL and Verilog-A. In fact, Verilog-AMS is a bridge between the digital world and the analog world within a single module.
+  \item \textbf{Disciplines and Natures:} Verilog-AMS supports disciplines such as thermal, mechanical, and rotational, allowing simulation of physical processes other than electrical and electronic. Each discipline is related to a nature that defines some physical characteristics, like potential (for instance, voltage) and flow (for current).
+  \item \textbf{Conservative Behavioral Modeling:} Verilog-AMS uses branch contributions (represented by the <+ operator) to define relationships between nodes. For example, a resistor is modeled by relating voltage and current: $V(p,n) <+ r * I(p,n)$. This allows the analog solver to apply Kirchhoff’s laws to solve for unknown voltages and currents.
+  \item \textbf{Analog Events and Synchronization:} Verilog-AMS introduces special sensitivity triggers, such as @cross and timer, to synchronize digital and analog domains
+  \item \textbf{Accuracy vs. Performance Balance:} It is related to having a balance or trade-off between simulation performance and accuracy.
+\end{itemize}
+
+% \newpage
+% \section{Fault Modeling in Integrated Circuits}
+% \subsection{Digital Fault Models}
+% \subsection{Analog Fault Models}
+
+% \newpage
+% \section{Automatic Test Pattern Generation (ATPG)}
+% \subsection{The Sensitization Process}
+% \subsection{Algorithms}
+
+% \newpage
+% \section{Design for Testability (DFT)}
+% \subsection{Controllability and Observability}
+% \subsection{Scan Design}
+% \subsection{Built-In Self-Test (BIST)}
+
+% \newpage
+% \section{Conclusion and Personal Reflections}
+
+\end{document}
