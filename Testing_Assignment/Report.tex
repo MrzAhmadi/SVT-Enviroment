@@ -4,7 +4,6 @@
 \usepackage[a4paper, left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
 \usepackage{microtype}
 
-% --- Title Information ---
 \title{[SVT Lab] Final Report: Testing Laboratory Concepts}
 \author{Reza Ahmadi (VR510067)}
 \date{\today}
@@ -43,17 +42,32 @@ Mixed models are demanded for component modeling, especially when we have hardwa
 
 \subsection{Key Concepts}
 \begin{itemize}
-  \item \textbf{Mixed-Signal Nature:} It refers to Verilog-AMS, which is a combination of Verilog-HDL and Verilog-A. In fact, Verilog-AMS is a bridge between the digital world and the analog world within a single module.
+  \item \textbf{Mixed-Signal Nature:} It is about Verilog-AMS, which is a combination of Verilog-HDL and Verilog-A. In fact, Verilog-AMS is a bridge between the digital world and the analog world inside a single module.
   \item \textbf{Disciplines and Natures:} Verilog-AMS supports disciplines such as thermal, mechanical, and rotational, allowing simulation of physical processes other than electrical and electronic. Each discipline is related to a nature that defines some physical characteristics, like potential (for instance, voltage) and flow (for current).
   \item \textbf{Conservative Behavioral Modeling:} Verilog-AMS uses branch contributions (represented by the <+ operator) to define relationships between nodes. For example, a resistor is modeled by relating voltage and current: $V(p,n) <+ r * I(p,n)$. This allows the analog solver to apply Kirchhoff’s laws to solve for unknown voltages and currents.
   \item \textbf{Analog Events and Synchronization:} Verilog-AMS introduces special sensitivity triggers, such as @cross and timer, to synchronize digital and analog domains
   \item \textbf{Accuracy vs. Performance Balance:} It is related to having a balance or trade-off between simulation performance and accuracy.
 \end{itemize}
 
-% \newpage
-% \section{Fault Modeling in Integrated Circuits}
-% \subsection{Digital Fault Models}
-% \subsection{Analog Fault Models}
+\newpage
+\section{Fault Modeling in Integrated Circuits}
+Fault modeling is a concept that we use for injecting intended faults into a circuit or system, such as a digital signal being "stuck-at" a specific value like 0 or 1 inside of a chip design. Thanks to this technique, we can test if the circuit's safety mechanisms will successfully detect and handle real-world failures before the physical chip is ever manufactured.
+\subsection{Digital Fault Models}
+In digital systems that process discrete data, digital fault models focus on logic errors. The most repeated of this kind of fault is the Stuck-At fault, where a specific node in the circuit is permanently stuck at a digit '0' or '1'.
+Under standards like ISO 26262, these kinds of errors are categorized by interacting with the chip's safety mechanisms, such as:
+\begin{itemize}
+  \item \textbf{Single Point Faults:} A fault that directly breaks a system's safety goal because it is not protected by any safety mechanism.
+  \item \textbf{Residual Faults:} A fault that breaks a safety goal, meanwhile it is technically covered by a safety mechanism, but the mechanism fails to detect it.
+  \item \textbf{Multi-Point Faults:} Faults that only violate a safety mechanism when another fault has occurred and it is combined with that.
+  \item \textbf{Latent Multi-Point Faults:} A fault occurring inside the safety mechanism and that goes completely undetected by any other safety mechanisms.
+  \item \textbf{Detected Multi-Point Faults:} A fault inside a safety mechanism that is successfully detected by a secondary safety monitor.
+\end{itemize}
+\subsection{Analog Fault Models}
+Unlike digital circuits, analog circuits deal with continuous signals. A fault in analog circuits is not just a simple 0 or 1; it can be a kind of shift in a waveform. Analog fault models are categorized into two categories:
+\begin{itemize}
+    \item \textbf{Catastrophic (Hard) Faults:} These faults represent a huge physical damage in the circuit, modeled as either a complete short circuit or an open circuit.
+    \item \textbf{Parametric (Soft) Faults:} These faults represent problems in productions. The circuit doesn't completely fail, but a part of that or a component drifts outside of its acceptable tolerance range.
+\end{itemize}
 
 % \newpage
 % \section{Automatic Test Pattern Generation (ATPG)}
