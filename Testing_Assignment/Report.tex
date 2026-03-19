@@ -38,8 +38,7 @@ Verilog-AMS (Analog and Mixed-Signal) is important because it allows us to simul
   \item \textbf{Simulation Balance:} Mixed Modeling provides a balance between simulation performance (considerd by speed) and accuracy, and we can contrill it between high-accuracy SPICE and high-performance for digital models.
 \end{itemize}
 
-\noindent Gemini said
-Mixed models are demanded for component modeling, especially when we have hardware with several levels of implementation. They also help us to improve the acceleration of the simulation process. Furthermore, they support a top-down design process that helps engineers move from abstract architectural models to detailed implementations.
+\noindent Mixed models are demanded for component modeling, especially when we have hardware with several levels of implementation. They also help us to improve the acceleration of the simulation process. Furthermore, they support a top-down design process that helps engineers move from abstract architectural models to detailed implementations.
 
 \subsection{Key Concepts}
 
@@ -97,13 +96,100 @@ For evaluating the ATPG process, we can measure it by using three primary metric
   \end{itemize}
 
 
-% \newpage
-% \section{Design for Testability (DFT)}
-% \subsection{Controllability and Observability}
-% \subsection{Scan Design}
-% \subsection{Built-In Self-Test (BIST)}
+\newpage
+\section{Design for Testability (DFT)}
+DFT is a methodology where testing considerations are incorporated during the initial hardware design phase, instead of attempting to develop tests after the design is already frozen.
 
-% \newpage
-% \section{Conclusion and Personal Reflections}
+\subsection{Scan Design}
+Scan design is a Design for Testability (DFT) technique; the main mission of this technique is transforming the sequential logic of a circuit into a shift register, also called a scan chain. the basic idea is:
+
+\begin{itemize}
+  \item Transform FFs in sequential logic into shift register
+  \item All FFs controllable \& observable via serial access
+  \item Many different types of scan FF (too many!)
+  \item Test problem simplified to testing combinational logic
+  \item The best overall DFT approach ever developed
+\end{itemize}
+
+\subsubsection*{Scan Design: Advantages}
+\begin{itemize}
+    \item Fully automated DFT process
+    \item Well-supported by CAD vendors
+    \item Sequential circuits become combinational in test mode
+    \item ATPG CAD tools for generating test vectors
+    \item Typically no fault simulation required
+    \item ATPG can identify redundant logic
+    \item Helps minimize design
+    \item Reduced time-to-market
+    \item High fault coverage
+    \begin{itemize}
+        \item Near 100\% for gate level stuck-at and bridging faults
+    \end{itemize}
+    \item Can be applied hierarchically
+    \begin{itemize}
+        \item chips $\Rightarrow$ boards $\Rightarrow$ system
+    \end{itemize}
+    \item Allows simplified \& accurate fault/defect diagnosis \& FMA
+    \item Highly structured \& provides good basis for BIST
+\end{itemize}
+
+\subsubsection*{Scan Design: Disadvantages}
+\begin{itemize}
+    \item Overhead:
+    \begin{itemize}
+        \item Pins: 3 (Scan Data In, Scan Data Out, Scan Mode)
+        \item Scan Data In can be shared with primary input
+        \item Scan Data Out can be shared with primary output
+        \item Area Overhead: 1 MUX per flip-flop
+        \item Typically 2-10\% total area overhead penalty
+        \item Performance degradation: added delay through MUX
+        \item Routing overhead: scan chain connections, Scan Mode
+    \end{itemize}
+    \item Long test application time:
+    \begin{itemize}
+        \item \#clock cycles = \#vectors $\times$ (\#FFs + 1) + \#FFs
+        \item Lots of vectors \& output responses to store
+    \end{itemize}
+    \item Logic must be synchronous
+    \item Difficult to test at system clock speed
+\end{itemize}
+
+\subsection{Built-In Self-Test (BIST)}
+It is a methodology where dedicated test circuitry is incorporated directly within a chip or board. It tries to automatically generate pseudorandom test patterns to stimulate the logic.
+
+\subsection{Comparison between ATPG and BIST}
+
+\begin{itemize}
+\item \textbf{Test quality}
+\begin{itemize}
+\item \textbf{Logic BIST:} High quality; additional detection of un-modeled defects
+\item \textbf{ATPG:} High quality; additional detection with patterns for small delay, cell-internal, and other defects
+\item \textbf{Mix:} Highest quality
+\end{itemize}
+\item \textbf{Design impact}
+\begin{itemize}
+\item \textbf{Logic BIST:} High
+\item \textbf{ATPG:} Low
+\item \textbf{Mix:} High
+\end{itemize}
+\item \textbf{Test environment}
+\begin{itemize}
+\item \textbf{Logic BIST:} Minimal interface; retest in system and burn-in
+\item \textbf{ATPG:} Needs a tester; manufacturing test
+\item \textbf{Mix:} All environments
+\end{itemize}
+\item \textbf{Design type}
+\begin{itemize}
+\item \textbf{Logic BIST:} Designs that need retest in system
+\item \textbf{ATPG:} Any digital circuit chip
+\item \textbf{Mix:} Mission critical, such as automotive and medical
+\end{itemize}
+\item \textbf{Test application time}
+\begin{itemize}
+\item \textbf{Logic BIST:} Short if design is not pseudorandom resistant
+\item \textbf{ATPG:} Depends on the number of pattern sets (stuck-at, transition, small delay, path-delay, cell-internal) desired
+\item \textbf{Mix:} Shortest; a combination of logic BIST for quick detection and ATPG to top up the undetected faults
+\end{itemize}
+\end{itemize}
 
 \end{document}
