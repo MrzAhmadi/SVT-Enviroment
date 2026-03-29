@@ -17,11 +17,11 @@
 \newpage
 
 \section{Introduction}
-The main purpose of this report is a quick review of all the important topics in the testing part of the Systems Verification and Testing course.
+The main purpose of this report is to provide a quick review of all the important topics in the testing part of the Systems Verification and Testing course.
 \subsection{Verification vs Testing}
-n Verification, the main approaches are defined to check the design and the designer's intention, and how a design respects that intention. However, in Testing, we check every device that is made; for instance, we check whether the output of a circuit respects our input or not.
-In short, we do the verification for the final product just one time after all feature implementation, but we do the testing for every circuit or device that is made from the design.
-Another difference between Verification and Testing is related to the way they are applied; in fact, for Verification, we use simulators to mimic design behavior, but in Testing, we apply it to every single real circuit or device.
+Verification: the main approaches are defined to check the design and the designer's intention, and to assess how a design respects that intention. However, in Testing, we check every device that is made; for instance, we check whether the circuit's output respects our input.
+In short, we verify the final product only once after all features are implemented, but we test every circuit or device made from the design.
+Another difference between Verification and Testing is how they are applied: for Verification, we use simulators to mimic design behavior, whereas in Testing, we test every real circuit or device.
 \subsection{The cost of Faults}
 One of the most important and notable purposes of testing is to reduce the cost of faults. In fact, if we consider an IC, finding a fault at a lower level (wafer level) is simpler and cheaper than when it is used in a smartphone or a car.
 
@@ -29,38 +29,38 @@ One of the most important and notable purposes of testing is to reduce the cost 
 Verilog-AMS (Analog and Mixed-Signal) is an HDL (Hardware Description Language) extension that helps us to combine event-driven simulation (digital) with continuous-time simulation (analog) into a single standard.
 Verilog-AMS combines two languages (Verilog and Verilog-A) and provides an extension to allow mixed-signal components.
 \subsection{Mixed-Signal Modeling}
-Verilog-AMS (Analog and Mixed-Signal) is important because it allows us to simulate complex behavioral systems where digital control logic is connected with analog hardware within a single, unique language. We use mixed modeling for purposes such as:
+Verilog-AMS (Analog and Mixed-Signal) is important because it allows us to simulate complex behavioral systems that integrate digital control logic with analog hardware within a single language. We use mixed modeling for purposes such as:
 
 \begin{itemize}
-  \item \textbf{System Integration:} Modern designs, like smart hybrid power car systems, or automatic braking, need a digital controller to control analog components like motors, fuel tanks, or sensors.
+  \item \textbf{System Integration:} Modern designs, like smart hybrid power car systems or automatic braking, need a digital controller to control analog components like motors, fuel tanks, or sensors.
   \item \textbf{Domain Convergence:} Mixed modeling helps us to connect the digital world with the analog world.
   \item \textbf{Language combiantion:} Verilog-AMS combines Verilog-HDL and Verilog-A.
-  \item \textbf{Simulation Balance:} Mixed Modeling provides a balance between simulation performance (considerd by speed) and accuracy, and we can contrill it between high-accuracy SPICE and high-performance for digital models.
+  \item \textbf{Simulation Balance:} Mixed Modeling provides a balance between simulation performance (considered by speed) and accuracy, and we can control it between high-accuracy SPICE and high-performance for digital models.
 \end{itemize}
 
-\noindent Mixed models are demanded for component modeling, especially when we have hardware with several levels of implementation. They also help us to improve the acceleration of the simulation process. Furthermore, they support a top-down design process that helps engineers move from abstract architectural models to detailed implementations.
+\noindent Mixed models are demanded for component modeling, especially when we have hardware with several levels of implementation. They also help us accelerate the simulation process. Furthermore, they support a top-down design process that helps engineers move from abstract architectural models to detailed implementations.
 
 \subsection{Key Concepts}
 
 \begin{itemize}
-  \item \textbf{Mixed-Signal Nature:} It is about Verilog-AMS, which is a combination of Verilog-HDL and Verilog-A. In fact, Verilog-AMS is a bridge between the digital world and the analog world inside a single module.
-  \item \textbf{Disciplines and Natures:} Verilog-AMS supports disciplines such as thermal, mechanical, and rotational, allowing simulation of physical processes other than electrical and electronic. Each discipline is related to a nature that defines some physical characteristics, like potential (for instance, voltage) and flow (for current).
+  \item \textbf{Mixed-Signal Nature:} It is about Verilog-AMS, which is a combination of Verilog-HDL and Verilog-A. In fact, Verilog-AMS is a bridge between the digital and analog worlds within a single module.
+  \item \textbf{Disciplines and Natures:} Verilog-AMS supports disciplines such as thermal, mechanical, and rotational, enabling the simulation of physical processes beyond electrical and electronic ones. Each discipline is related to a nature that defines certain physical characteristics, such as potential (for instance, voltage) and flow (for current).
   \item \textbf{Conservative Behavioral Modeling:} Verilog-AMS uses branch contributions (represented by the <+ operator) to define relationships between nodes. For example, a resistor is modeled by relating voltage and current: $V(p,n) <+ r * I(p,n)$. This allows the analog solver to apply Kirchhoff’s laws to solve for unknown voltages and currents.
   \item \textbf{Analog Events and Synchronization:} Verilog-AMS introduces special sensitivity triggers, such as @cross and timer, to synchronize digital and analog domains
   \item \textbf{Accuracy vs. Performance Balance:} It is related to having a balance or trade-off between simulation performance and accuracy.
 \end{itemize}
 
 \newpage
-\section{Fault Modeling in Integrated Circuits}
-Fault modeling is a concept that we use for injecting intended faults into a circuit or system, such as a digital signal being "stuck-at" a specific value like 0 or 1 inside of a chip design. Thanks to this technique, we can test if the circuit's safety mechanisms will successfully detect and handle real-world failures before the physical chip is ever manufactured.
-\subsection{Digital Fault Models}
-In digital systems that process discrete data, digital fault models focus on logic errors. The most repeated of this kind of fault is the Stuck-At fault, where a specific node in the circuit is permanently stuck at a digit '0' or '1'.
-Under standards like ISO 26262, these kinds of errors are categorized by interacting with the chip's safety mechanisms, such as:
 
+\section{Fault Modeling in Integrated Circuits}
+Fault modeling is a concept we use to inject intended faults into a circuit or system, such as a digital signal being "stuck-at" a specific value, like 0 or 1, within a chip design. Thanks to this technique, we can test if the circuit's safety mechanisms will successfully detect and handle real-world failures before the physical chip is ever manufactured.
+\subsection{Digital Fault Models}
+In digital systems that process discrete data, digital fault models focus on logic errors. The most common type of fault is the Stuck-At fault, in which a specific node in the circuit is permanently stuck at a value of '0' or '1'.
+Under standards like ISO 26262, these kinds of errors are categorized by interacting with the chip's safety mechanisms, such as:
 \begin{itemize}
   \item \textbf{Single Point Faults:} A fault that directly breaks a system's safety goal because it is not protected by any safety mechanism.
-  \item \textbf{Residual Faults:} A fault that breaks a safety goal, meanwhile it is technically covered by a safety mechanism, but the mechanism fails to detect it.
-  \item \textbf{Multi-Point Faults:} Faults that only violate a safety mechanism when another fault has occurred and it is combined with that.
+  \item \textbf{Residual Faults:} A fault that breaks a safety goal, while it is technically covered by a safety mechanism, but the mechanism fails to detect it.
+  \item \textbf{Multi-Point Faults:} Faults that only violate a safety mechanism when another fault has occurred, and it is combined with that.
   \item \textbf{Latent Multi-Point Faults:} A fault occurring inside the safety mechanism and that goes completely undetected by any other safety mechanisms.
   \item \textbf{Detected Multi-Point Faults:} A fault inside a safety mechanism that is successfully detected by a secondary safety monitor.
 \end{itemize}
@@ -68,31 +68,28 @@ Under standards like ISO 26262, these kinds of errors are categorized by interac
 Unlike digital circuits, analog circuits deal with continuous signals. A fault in analog circuits is not just a simple 0 or 1; it can be a kind of shift in a waveform. Analog fault models are categorized into two categories:
 \begin{itemize}
     \item \textbf{Catastrophic (Hard) Faults:} These faults represent a huge physical damage in the circuit, modeled as either a complete short circuit or an open circuit.
-    \item \textbf{Parametric (Soft) Faults:} These faults represent problems in productions. The circuit doesn't completely fail, but a part of that or a component drifts outside of its acceptable tolerance range.
+    \item \textbf{Parametric (Soft) Faults:} These faults represent problems in productions. The circuit doesn't completely fail, but a part or component drifts outside its acceptable tolerance range.
 \end{itemize}
 
 \newpage
 \section{Automatic Test Pattern Generation (ATPG)}
-ATPG is a kind of EDA method for finding a specific input or test sequence. When we use it on a digital circuit, it helps us to have automatic test equipment to distinguish between the correct circuit behavior and the faulty circuit behavior because of defects. On the other hand, it makes patterns for us to use to test devices after they are manufactured.
+ATPG is an EDA method for finding a specific input or test sequence. When we use it in a digital circuit, it helps us use automatic test equipment to distinguish between correct and faulty circuit behavior due to defects. On the other hand, it provides patterns for testing devices after they are manufactured.
 \subsection{Test Classification}
 During the test generation process, ATPG classifies faults into several different categories for evaluating the system, such as:
-
 \begin{itemize}
   \item \textbf{Full (FU):} All of the injected faults inside the design.
   \item \textbf{Detected (DT):} Faults successfully detected by the tool, which will be divided into detected by simulation (DS) and detected by implication (DI).
   \item \textbf{Aborted:} Failures where the tool interrupted the generation of tests because it reached the backtrack limit, leaving them undetected.
   \item \textbf{ATPG Untestable (AU):} Failures for which the test generator cannot find test patterns, but is also unable to prove their redundancy.
-  \item \textbf{Redundant (RE):} Redundant failures which the test generator considers impossible to detect.
+  \item \textbf{Redundant (RE):} Redundant failures that the test generator considers impossible to detect.
   \item \textbf{Undetected (UD):} Failures the test generator could not detect and failed to prove untestable, which includes Uncontrolled (UC) and Unobserved (UO) faults.
 \end{itemize}
-
 \subsection{Coverage Metrics}
 For evaluating the ATPG process, we can measure it by using three primary metrics:
-
 \begin{itemize}
   \item \textbf{Test Coverage:} It refers to the percentage of faults detected in the middle of all testable faults.
-  \item \textbf{Fault Coverage:} It refers to the percentage of faults detected int the middle of all injected faults.
-  \item \textbf{ATPG Effectiveness:} It refers to the all ability of the test generator to either successfully create a test for a fault or to definitively prove its non-testability.
+  \item \textbf{Fault Coverage:} It refers to the percentage of faults detected in the middle of all injected faults.
+  \item \textbf{ATPG Effectiveness:} It refers to the ability of the test generator to either successfully create a test for a fault or to definitively prove its non-testability.
   \end{itemize}
 
 
@@ -104,7 +101,7 @@ DFT is a methodology where testing considerations are incorporated during the in
 Scan design is a Design for Testability (DFT) technique; the main mission of this technique is transforming the sequential logic of a circuit into a shift register, also called a scan chain. the basic idea is:
 
 \begin{itemize}
-  \item Transform FFs in sequential logic into shift register
+  \item Transform FFs in sequential logic into a shift register
   \item All FFs controllable \& observable via serial access
   \item Many different types of scan FF (too many!)
   \item Test problem simplified to testing combinational logic
@@ -138,8 +135,8 @@ Scan design is a Design for Testability (DFT) technique; the main mission of thi
     \item Overhead:
     \begin{itemize}
         \item Pins: 3 (Scan Data In, Scan Data Out, Scan Mode)
-        \item Scan Data In can be shared with primary input
-        \item Scan Data Out can be shared with primary output
+        \item Scan Data In can be shared with the primary input
+        \item Scan Data Out can be shared with the primary output
         \item Area Overhead: 1 MUX per flip-flop
         \item Typically 2-10\% total area overhead penalty
         \item Performance degradation: added delay through MUX
@@ -155,7 +152,7 @@ Scan design is a Design for Testability (DFT) technique; the main mission of thi
 \end{itemize}
 
 \subsection{Built-In Self-Test (BIST)}
-It is a methodology where dedicated test circuitry is incorporated directly within a chip or board. It tries to automatically generate pseudorandom test patterns to stimulate the logic.
+It is a methodology in which dedicated test circuitry is incorporated directly into a chip or board. It automatically generates pseudorandom test patterns to stimulate the logic.
 
 \subsection{Comparison between ATPG and BIST}
 
@@ -182,7 +179,7 @@ It is a methodology where dedicated test circuitry is incorporated directly with
 \begin{itemize}
 \item \textbf{Logic BIST:} Designs that need retest in system
 \item \textbf{ATPG:} Any digital circuit chip
-\item \textbf{Mix:} Mission critical, such as automotive and medical
+\item \textbf{Mix:} Mission-critical, such as automotive and medical
 \end{itemize}
 \item \textbf{Test application time}
 \begin{itemize}
